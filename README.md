@@ -5,7 +5,7 @@ Openapi files used in https://github.com/influxdata/ui are used to compare gener
 
 ```
 yarn
-git clone git@github.com:influxdata/openapi.git ../openapi && git checkout master
+git clone git@github.com:influxdata/openapi.git ../openapi && cd ../openapi && git checkout master
 yarn prepare
 ```
 
