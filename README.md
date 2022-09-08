@@ -1,5 +1,5 @@
 This repository compares the output of `oats` tool from @influxdata/oats and from a forked @bonitoo-io/oats.
-Openapi files used in https://github.com/influxdata/ui are used to compare generated code.
+Openapi files from https://github.com/influxdata/ui are used to compare generated code.
 
 ## Installation
 
