@@ -1,0 +1,41 @@
+{
+  "name": "diff-oats",
+  "version": "2.0.0",
+  "private": true,
+  "license": "MIT",
+  "description": "",
+  "scripts": {
+    "prepare": "rm -rf ./node_modules/bonitoo && mkdir -p ./node_modules/bonitoo && cd ./node_modules/bonitoo && curl -L -o master.zip https://github.com/bonitoo-io/oats/archive/refs/heads/master.zip && unzip master.zip && mv oats-master oats && cd oats && yarn && yarn build && rm -rf node_modules",
+    "generate": "yarn oats-0.5.3 && yarn oats-bonitoo",
+    "validate": "yarn tsc --noEmit",
+    "clean": " rm -rf ./oats-0.5.3 ./oats-bonitoo ./oats-bonitoo_docs",
+    "oats-0.5.3": "export oats=./node_modules/@influxdata/oats/bin/oats TARGET=./oats-0.5.3 OPENAPI=../openapi && mkdir -p $TARGET && yarn part1 && yarn part2",
+    "oats-bonitoo": "export 'oats=./node_modules/bonitoo/oats/bin/oats --withDoc=false' TARGET=./oats-bonitoo OPENAPI=../openapi && mkdir -p $TARGET && yarn part1 && yarn part2",
+    "oats-bonitoo_docs": "export 'oats=./node_modules/bonitoo/oats/bin/oats' TARGET=./oats-bonitoo_docs OPENAPI=../openapi && mkdir -p $TARGET && yarn part1 && yarn part2",
+    "part1": "yarn common && yarn cloudPriv && yarn cloud-api && yarn oss-api && yarn unity && yarn notebooks",
+    "part2": "yarn annotations && yarn annotations-oss && yarn mapsd && yarn uiproxyd && yarn scripts && yarn subscriptions && yarn pinned && yarn fluxdocs",
+
+    "format": "yarn prettier -w ./oats-0.5.3 && yarn prettier -w ./oats-bonitoo",
+    "diff": "for f in ./oats-0.5.3/*.ts; do echo \"\n\n*** diff $(basename ${f}) oats:0.5.3 to oats:bonitoo ***\"; diff ${f} ./oats-bonitoo/$(basename ${f}); done; exit 0",
+
+    "common": "${oats} ${OPENAPI}/contracts/common.yml > ${TARGET}/commonRoutes.ts",
+    "cloudPriv": "${oats} ${OPENAPI}/contracts/priv/cloud-priv.yml > ${TARGET}/cloudPrivRoutes.ts",
+    "cloud-api": "${oats} ${OPENAPI}/contracts/cloud.yml > ${TARGET}/generatedRoutes_cloud.ts",
+    "oss-api": "${oats} ${OPENAPI}/contracts/oss.yml > ${TARGET}/generatedRoutes_oss.ts",
+    "unity": "${oats} ${OPENAPI}/contracts/priv/unity.yml > ${TARGET}/unityRoutes.ts",
+    "notebooks": "${oats} ${OPENAPI}/contracts/priv/notebooksd.yml > ${TARGET}/notebooksRoutes.ts",
+
+    "annotations": "${oats} ${OPENAPI}/contracts/priv/annotationd.yml > ${TARGET}/annotationdRoutes_cloud.ts",
+    "annotations-oss": "${oats} ${OPENAPI}/contracts/priv/annotationd-oss.yml > ${TARGET}/annotationdRoutes_oss.ts",
+    "mapsd": "${oats} ${OPENAPI}/contracts/mapsd.yml > ${TARGET}/mapsdRoutes.ts",
+    "uiproxyd": "${oats} ${OPENAPI}/contracts/priv/uiproxyd.yml > ${TARGET}/uiproxydRoutes_cloud.ts",
+    "scripts": "${oats} ${OPENAPI}/contracts/invocable-scripts.yml > ${TARGET}/scriptsRoutes.ts",
+    "subscriptions": "${oats} ${OPENAPI}/contracts/priv/nifid.yml > ${TARGET}/subscriptionsRoutes.ts",
+    "pinned": "${oats} ${OPENAPI}/contracts/priv/pinneditemsd.yml > ${TARGET}/pinnedItemRoutes.ts",
+    "fluxdocs": "${oats} ${OPENAPI}/contracts/priv/fluxdocsd.yml > ${TARGET}/fluxdocsdRoutes.ts"
+  },
+  "devDependencies": {
+    "@influxdata/oats": "0.5.3",
+    "prettier": "2.7.1"
+  }
+}
