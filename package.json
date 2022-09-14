@@ -5,7 +5,7 @@
   "license": "MIT",
   "description": "",
   "scripts": {
-    "prepare": "rm -rf ./node_modules/bonitoo && mkdir -p ./node_modules/bonitoo && cd ./node_modules/bonitoo && curl -L -o master.zip https://github.com/bonitoo-io/oats/archive/refs/heads/master.zip && unzip master.zip && mv oats-master oats && cd oats && yarn && yarn build && rm -rf node_modules",
+    "setup": "rm -rf ./node_modules/bonitoo && mkdir -p ./node_modules/bonitoo && cd ./node_modules/bonitoo && curl -L -o master.zip https://github.com/bonitoo-io/oats/archive/refs/heads/master.zip && unzip master.zip && mv oats-master oats && cd oats && yarn && yarn build && rm -rf node_modules",
     "generate": "yarn oats-0.5.3 && yarn oats-bonitoo",
     "validate": "yarn tsc --noEmit",
     "clean": " rm -rf ./oats-0.5.3 ./oats-bonitoo ./oats-bonitoo_docs",
@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@influxdata/oats": "0.5.3",
-    "prettier": "2.7.1"
+    "prettier": "2.7.1",
+    "typescript": "^4.8.3"
   }
 }

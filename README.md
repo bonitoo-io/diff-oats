@@ -6,7 +6,7 @@ Openapi files from https://github.com/influxdata/ui are used to compare generate
 ```
 yarn
 git clone git@github.com:influxdata/openapi.git ../openapi && git -C ../openapi checkout master
-yarn prepare
+yarn setup
 ```
 
 ## Usage
